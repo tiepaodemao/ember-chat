@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="chat.css">
+</head>
+<body>
+  <div id="app">
+    <div v-show = "toastShow" id="toast">
+      {{message}}
+    </div>
+    <div class="subject" v-if="isLogin">
+      <div id="title">
+        <p>火聊 (内测版)</p>
+        <p>{{username}}</p>
+        <p style="cursor:pointer" @click="pattern = !pattern">切换为{{pattern ? '群聊' : '私聊'}}</p>
+      </div>
+      <div class="box">
+        <div id="left" v-show="pattern">
+          <div v-for = "item in contactList" @click = "onclick(item.name)" class="notCheck" :class="item.name === activeName? 'active' : ''">
+            {{item.name}}
+          </div>
+        </div>
+        <div id="right">
+          <div id="chatting-records" ref="chatContent" :style="pattern ? '' : 'border-top-left-radius: 15px'">
+            <div v-for="item in messageList[activeName]" class="msg" :class="item.direction === 0 ? 'my-msg' : 'friend-msg'">
+              <div>
+                {{item.msg}}
+              </div>
+            </div>
+          </div>
+          <div id="chat-frame" :style="pattern ? '' : 'border-bottom-left-radius: 15px'">
+            <input v-model="sendMessage" type="text" placeholder="请输入"  @keyup.enter = "send">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="login subject" v-if="!isLogin">
+      <div class="name-input">
+        <input type="text" v-model="username"/>
+      </div>
+      <div id="submit" @click = "toLogin">
+        <p style="font-size: 20px;">登录</p>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="module" src="chat.js"></script>
+</html>
