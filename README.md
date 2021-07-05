@@ -10,4 +10,4 @@
 2. cd target目录下，执行`java -jar ember-chat-1.0.jar`
 
 
-3. 打开 http://localhost:8081/page/chat.html 即可
+3. 打开 http://localhost:8081/page/chat.html 即可 
