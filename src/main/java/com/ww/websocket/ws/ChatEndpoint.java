@@ -62,20 +62,20 @@ public class ChatEndpoint {
         webSocketSet.add(this);
     }
 
+    public static void main(String[] args) {
+        String message = "{\"message\":\"gg\",\"createTime\":\"2021-10-15T02:12:59.629Z\",\"direction\":1,\"user\":{\"name\":\"f\",\"imageUrl\":null}}";
+        ResultMessage msg = JSON.parseObject(message, ResultMessage.class);
+        System.out.println(msg);
+    }
+
     @OnMessage
     public void onMessage(String message,Session session){
-        ObjectMapper objectMapper = new ObjectMapper();
-        Message msg = null;
-        try {
-            msg = objectMapper.readValue(message, Message.class);
-        } catch (JsonProcessingException e) {
-            System.out.println("接收客户端的消息，转换出错了！");
-            e.printStackTrace();
-        }
+        System.out.println(message);
+        ResultMessage msg = JSON.parseObject(message, ResultMessage.class);
         for (ChatEndpoint chatEndpoint : webSocketSet) {
-            if (chatEndpoint.uid.equals(msg.getToName())) {
+            if (chatEndpoint.uid.equals(msg.getReceiveUser())) {
                 try {
-                    chatEndpoint.sendMessage(new ResultMessage(0,msg.getMessage(),new User(uid)));
+                    chatEndpoint.sendMessage(msg);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

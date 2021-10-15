@@ -15,20 +15,32 @@
     <div class="subject" v-if="isLogin">
       <div id="title">
         <p>火聊 (内测版)</p>
-        <p>{{username}}</p>
+        <p>{{user.name}}</p>
         <p style="cursor:pointer" @click="pattern = !pattern">切换为{{pattern ? '群聊' : '私聊'}}</p>
       </div>
       <div class="box">
         <div id="left" v-show="pattern">
-          <div v-for = "item in contactList" @click = "onclick(item.name)" class="notCheck" :class="item.name === activeName? 'active' : ''">
+          <div v-for = "item in contactList" @click = "onclick(item.name)" class="notCheck" :class="item.name === activeUser ? 'active' : ''">
+            <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg9.doubanio.com%2Fview%2Fgroup_topic%2Fl%2Fpublic%2Fp369991396.jpg&refer=http%3A%2F%2Fimg9.doubanio.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1636885668&t=b1ce04f6bd078b52450c8235d671b561">
             {{item.name}}
           </div>
         </div>
         <div id="right">
           <div id="chatting-records" ref="chatContent" :style="pattern ? '' : 'border-top-left-radius: 15px'">
-            <div v-for="item in messageList[activeName]" class="msg" :class="item.direction === 0 ? 'my-msg' : 'friend-msg'">
-              <div>
-                {{item.msg}}
+            <div v-for="item in messageList[activeUser]">
+              <div :class="item.msgType == 0 ? 'itemBoxRight' : 'itemBoxLeft'">
+                <div :style="item.msgType == 0 ? 'text-align: right' : 'text-align: left'">
+                  <div class="msg" :class="item.msgType == 0 ? 'my-msg' : 'friend-msg'">
+                    <span>
+                      {{item.message}}
+                    </span>
+                  </div>
+                  <div>
+                    <span style="font-size: 10px">
+                      {{item.createTime}}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -40,7 +52,7 @@
     </div>
     <div class="login subject" v-if="!isLogin">
       <div class="name-input">
-        <input type="text" v-model="username"/>
+        <input type="text" v-model="user.name"/>
       </div>
       <div id="submit" @click = "toLogin">
         <p style="font-size: 20px;">登录</p>

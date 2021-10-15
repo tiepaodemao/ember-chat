@@ -10,6 +10,7 @@ public class Message {
     /** 发送的数据 */
     private String message;
 
+
     public Message() {
     }
 
