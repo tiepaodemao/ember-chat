@@ -27,6 +27,8 @@ public class ChatEndpoint {
 
     String uid;
 
+    //String imageUrl = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg9.doubanio.com%2Fview%2Fgroup_topic%2Fl%2Fpublic%2Fp369991396.jpg&refer=http%3A%2F%2Fimg9.doubanio.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1636885668&t=b1ce04f6bd078b52450c8235d671b561";
+
     public Session getSession() {
         return session;
     }
@@ -57,7 +59,7 @@ public class ChatEndpoint {
         boolean secure = session.isSecure();
         this.session = session;
         this.uid = uid;
-        User user = new User(uid);
+        User user = new User(uid,"");
         sendAllMessage(new ResultMessage(1,this.uid+"已上线了",user));
         webSocketSet.add(this);
     }
